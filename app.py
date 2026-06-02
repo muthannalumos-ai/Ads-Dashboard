@@ -104,7 +104,6 @@ _BASE = dict(
                tickfont=dict(color="#344563", size=11)),
     legend=dict(bgcolor="rgba(255,255,255,0.95)", bordercolor="#d8e2f0",
                 borderwidth=1, font=dict(color="#1a1d23", size=11)),
-    title_font=dict(color="#1a237e", size=14, family="Arial"),
 )
 
 def al(fig, **kw):
@@ -115,6 +114,12 @@ def al(fig, **kw):
             lay[k].update(v)
         else:
             lay[k] = v
+    # Only set title styling when a title string is actually provided
+    if "title" in lay and isinstance(lay["title"], str) and lay["title"]:
+        lay["title"] = dict(text=lay["title"],
+                            font=dict(color="#1a237e", size=14, family="Arial"))
+    elif "title" not in lay or not lay.get("title"):
+        lay.pop("title", None)
     fig.update_layout(**lay)
 
 # ── Categorisation helpers ────────────────────────────────────────────────────
